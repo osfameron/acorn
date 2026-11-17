@@ -1,13 +1,11 @@
 site:
   title: Antora At Scale
-  start_page: component-b::index.adoc 
+  start_page: acorn:intro:toc.adoc 
 content:
   sources: 
-  - url: https://gitlab.com/antora/demo/demo-component-a.git
+  - url: ..
     branches: HEAD
-  - url: https://gitlab.com/antora/demo/demo-component-b.git
-    branches: [v2.0, v1.0]
-    start_path: docs
+    start_path: antora-book/
 ui: 
   bundle:
     url: ../docs-ui/build/ui-bundle.zip

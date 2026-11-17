@@ -1,0 +1,68 @@
+.Distributed Docs. Dealing with the complexity of how your docs are modelled
+* The playbook
+** Simple sites
+** Colocation in monorepo vs multiple repos
+** Branches
+** start_paths 
+*** for multiple content sources
+*** or shared dev repos
+** many-to-many nature
+*** visualising your playbook relationships
+** Generating the playbook with diffs
+
+.Spot the Difference (how we can group similar-but-different sets of docs)
+* by components
+* by module
+* by version
+* paragraphs / bulleted lists etc.
+* tab sets
+* How do these different categorisation options affect how we use version control to keep these differences in sync?
+
+.Navigation
+* IA for all these products you now have.
+* contextual navigation
+
+.Some classic problems
+* Every page is page one
+* When was a page changed?
+* Configuring attributes different levels of content:
+** global (antora-playbook attributes)
+** component (antora.yml attributes)
+** module (OH NO! - do it with an extension?)
+** page (frontmatter)
+* Banners
+* Reorganising content
+** page-aliases
+* Renaming things
+** terms. stylisation. indexing. linking.
+** page-aliases again?
+** overriding the url component
+* Images, alt text, captions, descriptions
+* AI-ready docs
+** llms.txt
+** markdown summaries
+* Code examples
+** syntax highlighting
+** includes by line number / tag
+*** use Compy
+*** custom include processor
+** callouts
+* Generating content
+** attributes
+** templated content
+** redocly etc.
+** kroki
+** antora-collector
+** manual script
+** working with other teams
+* Previews
+** building when things change (event bus / polling / state)
+* The UI
+** why it matters
+** suggestion: keep in same repo
+* Search
+* Niche uses of Antora
+** blog
+** slides
+** CV
+
