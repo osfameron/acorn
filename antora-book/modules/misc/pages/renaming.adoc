@@ -85,3 +85,65 @@ An LLM will likely do an unreasonably good job of this, and may correctly identi
 Even so, you will want to do due-diligence, to be able to answer its clarifying questions.
 As an LLM output is non-deterministic, you may want to run this several times, checking for errors, as we did with option 2.
 
+
+== This has been fun, let's never do it again
+
+After a documentation team has had to rename a product or term once, perhaps twice, they will often ask "could we just make the name parametrizable, so we can switch it out the *next* time the company renames it?"
+
+One obvious solution, is document attributes.
+I dislike this solution, for reasons I'll try to explain, but it's certainly an option that's even documented as a good practice:
+
+[quote,https://docs.asciidoctor.org/asciidoc/latest/attributes/document-attributes/]
+Most of the time, user-defined attributes are used as a text replacement tool. These attributes allow the author to define named, reusable content.
+Thus, instead of having to repeat text throughout the document, such as a product name, that text can be defined in an attribute and referenced by its name instead.
+This technique helps to keep the document DRY, which stands for "Don't Repeat Yourself".
+
+So we could refer to an attribute defined, for example, in the Playbook.
+
+[.flex-source]
+--
+.example.adoc
+[source,asciidoc]
+----
+Create an {acorn-name} runner instance.
+----
+
+
+.antora-playbook.yml
+[source,yaml]
+----
+asciidoc:
+  attributes:
+    acorn-name: Acorn
+----
+--
+
+This looks initially appealing, and will certainly work for simple cases.
+You should probably consider this simple solution before moving on.
+But there are some problems:
+
+* now when you look at your built site, and see the term "Let us create an Acorn runner instance", you can't easily find this in the source, because that string doesn't exist.
+* you have to think of *names* for these names... Perhaps you could use `{acorn}` instead, which would look nicer.  But what about product names with spaces?
+* If the term you are translating is not automatically capitalized, then you'd want that to respect context ("Database" vs "database" for example.) Unfortunately Asciidoc attribute names are case-insensitive so `{database}` and `{Database}` refer to the same attribute.
+
+And of course, the most egregious issue, if we update `acorn-name` to a word that begins with a consonant, we have to update *both* files anyway.
+
+[.flex-source]
+--
+.example.adoc
+[source,asciidoc]
+----
+Create a {acorn-name} runner instance.
+----
+
+.antora-playbook.yml
+[source,yaml]
+----
+asciidoc:
+  attributes:
+    acorn-name: Squirrel
+----
+--
+
+In short, Asciidoc attributes are not general tools for localization.
+Use them judiciously if they work for you, but be aware of the cases where you will need a more expressive abstraction.

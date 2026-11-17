@@ -1084,3 +1084,16 @@
   text-align: right;
   width: 1.5em;
 }
+
+/* flex-source block for wrapping multiple source blocks */
+.flex-source > .content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.flex-source > .content > .listingblock {
+  flex: 1 1 20rem;
+  min-width: 0;
+  margin: 0;
+}

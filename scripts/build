@@ -1,0 +1,12 @@
+#!/bin/bash
+set -eu
+
+cd $(dirname $0)/..
+
+pushd docs-ui
+npx gulp bundle
+popd
+
+cd docs-site 
+npx antora antora-playbook.yml
+
