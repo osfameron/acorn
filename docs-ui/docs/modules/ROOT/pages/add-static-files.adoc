@@ -72,7 +72,7 @@ The UI build will assemble the files into the UI bundle as follows:
 css/
   site.css
 font/
-  roboto-latin-400-italic.woff
+  crimson-pro-all-400-italic.woff
   ...
 img/
   back.svg
@@ -96,7 +96,7 @@ _/
   css/
     site.css
   font/
-    roboto-latin-400-italic.woff
+    crimson-pro-all-400-italic.woff
     ...
   img/
     back.svg
@@ -167,7 +167,7 @@ _/
   css/
     site.css
   font/
-    roboto-latin-400-italic.woff
+    crimson-pro-all-400-italic.woff
     ...
   img/
     back.svg
