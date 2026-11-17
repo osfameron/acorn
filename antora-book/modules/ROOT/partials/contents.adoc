@@ -1,5 +1,7 @@
+* xref:intro:intro.adoc[]
+
 .Distributed Docs. Dealing with the complexity of how your docs are modelled
-* The playbook
+* xref:playbook:intro.adoc[]
 ** Simple sites
 ** Colocation in monorepo vs multiple repos
 ** Branches
@@ -33,7 +35,7 @@
 * Banners
 * Reorganising content
 ** page-aliases
-* Renaming things
+* xref:misc:renaming.adoc[Renaming things]
 ** terms. stylisation. indexing. linking.
 ** page-aliases again?
 ** overriding the url component

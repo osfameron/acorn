@@ -1,0 +1,87 @@
+= The problem with names
+
+[quote,Phil Karlton]
+There are only two hard things in Computer Science: cache invalidation and naming things.
+
+
+Naming things is hard, and many people struggle to find good names for things.
+Technical writers often complain that we'd love to be involved in this process, or to push back from when the organisation decides to use names which are inaccurate, overloaded with multiple meanings in different contexts, hard to remember or type, or occasionally, just in poor taste.
+
+Getting a seat at the table where names are chosen is a hard *organisational* problem that's outside the scope of this book.
+
+
+== Renaming things
+
+Unfortunately, precisely because naming things is hard, it often happens that the company decides to *rename* them later. From key concepts to names of products, this can be a significant lift for the whole business, with marketing pages, developer repos, training courses all needing to be corrected.
+
+The product documentation is perhaps one of the thorniest of these, for a few reasons:
+
+* Unlike Marketing or training content, which can often focus exclusively on the *latest* version of products, your Docs site may support many old versions of content, all of which need to be updated.
+
+* In a Developer repo, there's often a distinction between the "marketing name" and the "technical name" of things, for good reasons like backwards compatibility. 
+Renaming here can be done on an "eventually consistent" basis, with both old and new names existing in different contexts. 
+This is a wart, certainly, but may be an acceptable one.
+
+* Docs have to be pragmatic about mentioning the old name, in discoverable ways.
+Marketing may not want to see the old name ever.
+But customers who need support for their legacy version of a product will be confused if it's not mentioned.
+The presence of a phrase like "Foo (formerly known as Bar)" in your docs will also be picked up by Search engines and LLMs alike.
+
+* Related: do we want to rename the product even in *older* versions of the docs?
+It might be reasonable to only rename the *latest* version of a product.
+Or product management might insist on doing so for all supported versions.
+In some cases, there are versions which are "not supported as such, but are still on the docs site" - it might be justifiable to not do a full renaming but to use admonition banners judiciously.
+
+
+== Find and Replace
+
+[quote, Encyclopedia Magica]
+If it receives over 100 points of dawizard in one turn, the cube is destroyed.
+
+
+An editor of this 1994 Dungeons of Dragons book was instructed to replace all instances of the word "mage" with "wizard".  The magic of Find and Replace, present in all text editors, is full of traps for the unwary.
+
+* we need to find all instances of the old name
+* NOT including words that simply *contain* that word
+* but including plurals, possessives, and other similar grammatical forms
+* searching for typos / variant capitalisations
+* NOT instances we want to leave unchanged ("formerly known as Foo")
+* NOT references to code/API structures or UI text that has not yet been renamed
+* NOT references to URLs or Antora xrefs that haven't yet been changed
+* (however in the case of the latter, we should consider renaming those pages as part of this push.)
+
+We may also need to consider grammatical elements.
+In English, the `a/an` distinction is the most common example:
+
+* "An AcornRunner instance" -> "A SquirrelRunner instance"
+
+Other more exotic scenarios sometimes occur.
+
+* If the new name is stylised with an *initial lowercase* letter, we might prefer to avoid using it as the first word in a sentence.
+* A product name might lose it's preceeding article (as Apple likes to refer to "iPhone" and "iPad" in marketing materials), requiring rewrites.
+
+
+It's important to understand your language, your style guide, and these issues before attempting any renaming!
+
+It's also important to understand timing.
+A renaming may be required to go at a particular date, to coordinate with other parts of the company (marketing, training, etc.)
+
+If your writing team is still writing *content* with the old name until the changeover, you may have a lot of time to prepare, but very little time to execute the change.
+
+Broadly speaking, the options are:
+
+1. Manual find-and-replace in a text editor.
+The easiest conceptually, and may be suitable for smaller projects, or writers who don't have dedicated tooling support.
+
+2. Scripting.
+Code up the rules, run your script, and check the diff.
+Check which errors have been introduced.
+Request code-review.
+Update the script, and re-run (from the current state of your branch), rinse and repeat.
+At the final moment, run the rename again.
+
+3. Ask an LLM.
+An LLM will likely do an unreasonably good job of this, and may correctly identify many of the edge cases we already looked at.
+Even so, you will want to do due-diligence, to be able to answer its clarifying questions.
+As an LLM output is non-deterministic, you may want to run this several times, checking for errors, as we did with option 2.
+

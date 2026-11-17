@@ -1,0 +1,13 @@
+#!/bin/bash
+set -eu
+
+cd $(dirname $0)/..
+
+words=$(
+  find antora-book -type f -name '*.adoc' -exec cat {} + |
+    wc -w |
+    tr -d '[:space:]'
+)
+
+printf '%s,%s\n' "$(date '+%Y-%m-%d %H:%M')" "$words" \
+  | tee -a wordcount.csv

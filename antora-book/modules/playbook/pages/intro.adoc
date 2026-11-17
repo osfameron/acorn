@@ -1,0 +1,11 @@
+= The Playbook
+
+The Playbook is absolutely key to understanding an Antora project, and getting the full power and potential out of the system.
+
+It's just a single, hierarchical file, that contains the configuration file that Antora uses to build your project.
+It's conceptually very simple, but like any configuration file or manifest of contents, it can become unwieldy and hard to read as your requirements develop.
+
+The biggest challenge is that the Playbook is the *entry-point* into your project:
+it's where you start, and to understand what it means, you will then need to drill down into your project, which might be distributed across many Git repos.
+
+Understanding the Playbook is so central to the experience of using Antora that we'll spend a whole chapter looking into how to read it, how we can use it to model the emergent complexity of a docs site as it evolves.
