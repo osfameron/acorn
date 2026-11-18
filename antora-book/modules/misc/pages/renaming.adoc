@@ -287,6 +287,10 @@ In ((Acorn Runner)), we can create (((task)))tasks.
 ----
 --
 
+> Donald Knuth created ((TEX)).
+>
+> In ((Acorn Runner)), we can create (((task)))tasks.
+
 Notice how we've even mis-capitalized `TeX`, but added a fallback.
 This kind of detail will make it easier to maintain and keep consistent.
 
