@@ -3,9 +3,15 @@ set -eu
 
 cd $(dirname $0)/..
 
-pushd docs-ui
-npx gulp bundle
-popd
+if [[ "${CI-false}" == "true" ]]
+then
+    npm ci
+
+    pushd docs-ui
+    npm ci
+    npx gulp bundle
+    popd
+fi
 
 cd docs-site 
 npx antora antora-playbook.yml --stacktrace
