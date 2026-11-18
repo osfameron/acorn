@@ -1,7 +1,18 @@
 <article class="doc">
-{{#with page.title}}
-<h1 class="page">{{{this}}}</h1>
-{{/with}}
+{{#if page.title}}
+<hgroup class="page">
+    <h1 class="page">{{{page.title}}}</h1>
+    {{#with page.attributes.subtitle}}
+    <h2 class="subtitle">{{{this}}}</h2>
+    {{/with}}
+    {{#if page.author}}
+    <address class="author">
+        by <a rel="author" href="mailto:{{page.email}}">{{page.author}}</a>
+    </address>
+    {{/if}}
+</hgroup>
+{{/if}}
+
 {{{page.contents}}}
 {{> pagination}}
 </article>
