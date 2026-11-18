@@ -1,5 +1,5 @@
 site:
-  title: Antora At Scale
+  title: Building Documentation At Scale With Antora and Asciidoc
   start_page: acorn:intro:toc.adoc
 
 antora:

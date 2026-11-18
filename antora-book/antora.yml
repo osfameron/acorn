@@ -1,5 +1,5 @@
 name: acorn
-title: Antora Book
+title: Building Documentation at Scale with Antora and Asciidoc
 version: '1.0'
 nav:
   - modules/ROOT/nav.adoc
