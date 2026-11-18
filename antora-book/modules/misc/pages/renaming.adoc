@@ -90,6 +90,9 @@ As an LLM output is non-deterministic, you may want to run this several times, c
 
 After a documentation team has had to rename a product or term once, perhaps twice, they will often ask "could we just make the name parametrizable, so we can switch it out the *next* time the company renames it?"
 
+
+=== Document attributes
+
 One obvious solution, is document attributes.
 I dislike this solution, for reasons I'll try to explain, but it's certainly an option that's even documented as a good practice:
 
@@ -123,8 +126,13 @@ You should probably consider this simple solution before moving on.
 But there are some problems:
 
 * now when you look at your built site, and see the term "Let us create an Acorn runner instance", you can't easily find this in the source, because that string doesn't exist.
-* you have to think of *names* for these names... Perhaps you could use `{acorn}` instead, which would look nicer.  But what about product names with spaces?
-* If the term you are translating is not automatically capitalized, then you'd want that to respect context ("Database" vs "database" for example.) Unfortunately Asciidoc attribute names are case-insensitive so `{database}` and `{Database}` refer to the same attribute.
+* you have to think of *names* for these names... Perhaps you could use `\{acorn}` instead, which would look nicer.  But what about product names with spaces?
+* If the term you are translating is not automatically capitalized, then you'd want that to respect context ("Database" vs "database" for example.) Unfortunately Asciidoc attribute names are case-insensitive so `\{database}` and `\{Database}` refer to the same attribute.
+* If the key is not defined in the playbook or the component's `antora.yml`, then:
+** it will be rendered literally like `\{acorn-name}`.
+In this case, the naming of the attribute may be key to showing something useful.
+** an error will be created in the output of `npx antora generate` command.
+Whether you spot this may depend on how noisy your logs are (e.g. if you're starting with a small, clean build, or have inherited a legacy build where fixing errors in many old versions is a significant effort. ((TODO)) link to section on summarizing and squashing build errors.)
 
 And of course, the most egregious issue, if we update `acorn-name` to a word that begins with a consonant, we have to update *both* files anyway.
 
@@ -147,3 +155,144 @@ asciidoc:
 
 In short, Asciidoc attributes are not general tools for localization.
 Use them judiciously if they work for you, but be aware of the cases where you will need a more expressive abstraction.
+
+
+== A question of style
+
+We touched briefly on stylisation of terms.
+For example Knuth's famous https://en.wikipedia.org/wiki/TeX[TeX] is stylised *T~E~X*.
+
+[source,asciidoc]
+----
+For example Knuth's famous https://en.wikipedia.org/wiki/TeX[TeX]
+is stylised *T~E~X*.
+----
+
+We want to keep these consistent, but also easy to write.
+It's easy to imagine writers mis-stylising this in different places, without strong discipline.
+
+Let's see how attributes work here:
+
+[.flex-source]
+--
+.antora-playbook.yml
+[source,yaml]
+----
+asciidoc:
+  attributes:
+    tex-name: *T~E~X*
+----
+
+.example.adoc
+[source,asciidoc]
+----
+Donald Knuth created {tex-name}.
+----
+--
+
+This results in:
+
+> Donald Knuth created {tex-name}.
+
+That doesn't work due to the how attribute substitution and formatting are ordered.
+A workaround is:
+
+.example.adoc
+[source,asciidoc]
+----
+Donald Knuth created pass:a,q[{tex-name}].
+----
+
+This uses the https://docs.asciidoctor.org/asciidoc/latest/pass/pass-macro/#custom-substitutions[inline `pass` macro] with custom substitutions for **a**ttributes and **q**uotes (where the bold and subscript are defined as "quotes".)
+
+This is a hard sell to a writing team, and unlikely to be adopted with any enthusiasm as a solution.
+Let's look at some alternatives.
+
+
+== Towards a solution
+
+Having looked at this problem from a number of angles, we can summarize some important requirements.
+
+1. It must be easy for the writers to maintain.
+2. It must be easy to find the terms to rename, without finding false-positives.
+3. We may want to be able to stylise terms according to complex formatting rules.
+4. We might want to do automatic renaming, including changing the surrounding text (like "a/an" in English.)
+
+Let's look at a possible option that covers items 1-3.
+Item 4 can be left as an exercise for an LLM, or for an ambitious  custom extension.
+
+
+=== Index terms
+
+Asciidoc provides an https://docs.asciidoctor.org/asciidoc/latest/sections/user-index/[Index Catalog] feature.
+This allows the automatic creation of an index, currently for PDF and DocBook targets, but not HTML.
+
+By default, you can write text like:
+
+.example.adoc
+[source,asciidoc]
+----
+In ((Acorn Runner)), we can create (((task)))tasks.
+----
+
+This creates an index entry for `\((Acorn Runner))`, but also outputs the text "Acorn Runner" in the document.
+
+It then creates an index entry for `(((task)))` which outputs nothing.
+This allows us to write custom text to show to the user, in this case the plural "tasks".
+
+Already, this is arguably more useful than document attributes, in that we've not had to invent any names for these, and can just write human readable text!
+
+This builtin feature partly addresses our first two requirements:
+
+1. Writing `\((Acorn Runner))` is no more difficult than writing `Acorn Runner`.
+
+2. It is easy to search (using your text editor's Search and Replace feature) for `\((Acorn Runner))` to find all *deliberately tagged* instances of this term.
+Because we've specified the double-parentheses, we *won't* find any examples that weren't previously tagged as terms, and which might be the edge cases we've already discussed.
+That's a good thing: we handle the low-hanging fruit this way, and then do an additional search for non-terms, to edit with greater caution.
++
+As a bonus, by default, we'll also find instances of `\(((Acorn Runner)))` with 3 sets of parenthesis (the hidden entries).
+
+
+=== Extending index terms
+
+Though we can use the text editor's Search and Replace, it seems appropriate for a feature that creates an *Index* to usefully summarize the locations of these entries, across all components and versions.
+
+With relatively little code, we can:
+
+* generate such an index by hooking into the processing of the underlying `indexterm` macro.
+* add stylization to the feature.
+
+This will allow us to:
+
+[.flex-source]
+--
+.antora-playbook.yml
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: ./lib/terms-extension.js
+      data:
+        styles:
+          TeX: '*T~E~X*'
+          Acorn Runner: "Acorn Runner"
+----
+
+.example.adoc
+[source,asciidoc]
+----
+Donald Knuth created ((TEX)).
+
+In ((Acorn Runner)), we can create (((task)))tasks.
+----
+--
+
+Notice how we've even mis-capitalized `TeX`, but added a fallback.
+This kind of detail will make it easier to maintain and keep consistent.
+
+The output, if periodically analysed, will help show terms that are duplicated due to inconsistent spelling, and track them down for correction.
+
+* Acorn Runner
+* acorn run
+* Acorn Runer
+* ...

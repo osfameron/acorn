@@ -1,14 +1,26 @@
 site:
   title: Antora At Scale
-  start_page: acorn:intro:toc.adoc 
+  start_page: acorn:intro:toc.adoc
+
+antora:
+  extensions:
+    - require: ./lib/terms-extension.js
+      data:
+        styles:
+          TeX: '*T~E~X*'
+          Acorn Runner: "Acorn Runner"
+
 asciidoc:
   attributes:
     pagination: true
+    tex-name: '*T~E~X*'
+
 content:
   sources: 
   - url: ..
     branches: HEAD
     start_path: antora-book/
+
 ui: 
   bundle:
     url: ../docs-ui/build/ui-bundle.zip

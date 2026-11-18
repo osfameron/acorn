@@ -3,10 +3,10 @@ set -eu
 
 cd $(dirname $0)/..
 
-pushd docs-ui
-npx gulp bundle
-popd
+# pushd docs-ui
+# npx gulp bundle
+# popd
 
 cd docs-site 
-npx antora antora-playbook.yml
+npx antora antora-playbook.yml --stacktrace
 
