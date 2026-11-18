@@ -4,7 +4,7 @@ site:
 
 antora:
   extensions:
-    - require: ./lib/terms-extension.js
+    - require: ../packages/antora-terms/lib/extension.js
       data:
         styles:
           TeX: '*T~E~X*'

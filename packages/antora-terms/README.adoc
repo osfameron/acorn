@@ -1,0 +1,93 @@
+= antora-terms
+
+Collect and style AsciiDoc index terms in an Antora documentation site.
+
+Mark terms using standard AsciiDoc syntax.
+The extension records their source locations and the published pages where they appear.
+Optionally, configure how visible terms are styled.
+
+This package is experimental.
+It currently prints collected records to the build console; it does not yet generate a reader-facing index.
+
+== Installation
+
+From your Antora playbook project:
+
+
+[source,shell]
+----
+npm install antora-terms
+----
+
+Register the extension in your playbook:
+
+.antora-playbook.yml
+[source,yaml]
+----
+antora:
+  extensions:
+    - require: ./lib/terms-extension.js
+      data:
+        styles:
+          TeX: '*T~E~X*'
+----
+
+== Marking terms
+
+Use double parentheses for a visible term:
+
+[source,asciidoc]
+----
+An ((Acorn Runner)) executes the workflow.
+
+Donald Knuth invented ((TeX)).
+----
+
+The term may be styled, if configured.
+In this example, `TeX` will be styled as *T~E~X*.
+
+Otherwise, the text within the parentheses appears unchanged.
+
+Use triple parentheses for a concealed index entry:
+
+[source,asciidoc]
+----
+An Acorn Runner executes the workflow.(((workflow execution)))
+----
+
+
+== Collected information
+
+After page conversion, the extension prints the collected records to the build console.
+
+The extension enables Asciidoctor source mapping automatically.
+
+
+== Limitations and TODO
+
+No HTML index or occurrence-specific anchors are generated yet.
+
+Only content processed during the build is collected.
+Unused partials are not scanned.
+
+Source locations identify enclosing blocks, not exact inline positions.
+Asciidoctor has known include-boundary cases where a block can be attributed to the calling file instead of the included file.
+
+Shared partials can produce multiple records when rendered on multiple pages.
+
+The extension overrides an internal Asciidoctor.js converter method.
+Compatibility should be checked when upgrading Antora or Asciidoctor.js.
+
+The implementation has been exercised with Antora 3.2.2 and Asciidoctor.js 2.2.9.
+Other versions and output backends have not yet been verified.
+
+
+== Author
+
+Hakim Cassimally
+
+
+== License
+
+ISC.
+See LICENSE.

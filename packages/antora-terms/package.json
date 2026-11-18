@@ -1,0 +1,23 @@
+{
+  "name": "antora-terms",
+  "version": "0.1.0",
+  "description": "Collect and style AsciiDoc index terms in Antora",
+  "type": "commonjs",
+  "main": "./lib/extension.js",
+  "files": [
+    "lib/"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "antora",
+    "asciidoc",
+    "asciidoctor",
+    "index"
+  ],
+  "devDependencies": {
+    "downdoc": "^1.1.0-stable"
+  },
+  "scripts": {
+    "prepack": "downdoc README.adoc"
+  }
+}
