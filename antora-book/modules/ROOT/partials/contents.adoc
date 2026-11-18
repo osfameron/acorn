@@ -1,5 +1,3 @@
-* xref:intro:intro.adoc[]
-
 .Distributed Docs. Dealing with the complexity of how your docs are modelled
 * xref:playbook:intro.adoc[]
 ** Simple sites
@@ -25,6 +23,10 @@
 * contextual navigation
 
 .Some classic problems
+* xref:misc:renaming.adoc[Renaming things]
+** terms. stylisation. indexing. linking.
+** page-aliases again?
+** overriding the url component
 * Every page is page one
 * When was a page changed?
 * Configuring attributes different levels of content:
@@ -35,10 +37,6 @@
 * Banners
 * Reorganising content
 ** page-aliases
-* xref:misc:renaming.adoc[Renaming things]
-** terms. stylisation. indexing. linking.
-** page-aliases again?
-** overriding the url component
 * Images, alt text, captions, descriptions
 * AI-ready docs
 ** llms.txt

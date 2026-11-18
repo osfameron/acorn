@@ -7,7 +7,7 @@
     {{/with}}
     {{#if page.author}}
     <address class="author">
-        by <a rel="author" href="mailto:{{page.email}}">{{page.author}}</a>
+        by <a rel="author" href="mailto:{{page.file.asciidoc.attributes.email}}">{{page.author}}</a>
     </address>
     {{/if}}
 </hgroup>

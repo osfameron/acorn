@@ -1,6 +1,6 @@
 site:
   title: Building Documentation At Scale With Antora and Asciidoc
-  start_page: acorn:intro:toc.adoc
+  start_page: acorn:intro:intro.adoc
 
 antora:
   extensions:

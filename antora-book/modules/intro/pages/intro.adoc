@@ -2,8 +2,15 @@
 Hakim Cassimally <hakim.cassimally@gmail.com>
 :page-subtitle: with Antora and Asciidoc
 
-Blah blah blah
 
+((TODO)): explain rationale for this book and my credentials for writing it:
+
+* running a big docs site is a bigger task than people who've never done it might imagine.
+* Docs-as-Code in general has many advantages which compound as the documentation ask gets bigger and more complex.
+* The Antora (((TODO,link))) project exemplifies many of the features required.
+* How the book is organised
+
+ 
 == Table of Contents
 
 include::ROOT:partial$contents.adoc[]
