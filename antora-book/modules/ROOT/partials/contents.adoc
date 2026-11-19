@@ -1,3 +1,5 @@
+* xref:intro:ai-statement.adoc[]
+
 .Distributed Docs. Dealing with the complexity of how your docs are modelled
 * xref:playbook:intro.adoc[]
 ** Simple sites

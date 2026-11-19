@@ -1,0 +1,27 @@
+= AI Statement
+
+This book and the accompanying code will be mostly written by me, using my brain and hands.
+
+In terms of the emerging https://0rwx.com/[0rwx] framework, this is "AI: Read" permissions.
+I will use a chatbot (currently ChatGPT 6.1 Sol light) to discuss ideas, research implementation details, assist with debugging, and so on.
+All the core content (text, Asciidoc source, Antora extensions, CI configuration etc.) will be written and reviewed principally by me or other human collaborators.
+
+image::AI-R-light.svg[AI: Read]
+
+I *may* in future use a coding agent (AI: Write) to substantially generate non-core supporting documents or code.
+I'll make sure to document this in version control for transparency, and if necessary, I'll update this page also.
+
+
+== Why?
+
+This book is personal project with the goals of:
+
+* Documenting the thoughts and expertise I developed over 5 years working with Antora daily.
+* Establishing my professional credentials and technical expertise in the field.
+* Solidifying and exploring ideas, techniques, and critical opinions about this toolchain.
+
+This last point is perhaps the most important:
+the process of writing a book is about the discovery.
+I can *deliver* content or code samples with ChatGPT, but I'll only refine my understanding by putting in the work.
+
+I'm allowing AI: Read because a back and forth with an LLM is, yes, a shortcut, but it's still recognisably part of a journey that involves thinking and exploration, and, hopefully, *fun*.
