@@ -7,6 +7,12 @@
     "type": "git",
     "url": "https://gitlab.com/antora/antora-ui-default.git"
   },
+  "scripts": {
+    "test": "npm --prefix .. run test",
+    "build": "npm --prefix .. run build",
+    "build-ui": "gulp bundle",
+    "build-all": "npm --prefix .. run build-all"
+  },
   "engines": {
     "node": ">= 26.0.0"
   },
