@@ -1,0 +1,7 @@
+body.book {
+  h1.page,
+  h2.subtitle,
+  address.author {
+    text-align: center;
+  }
+}

@@ -1,7 +1,8 @@
 name: acorn
 title: Building Documentation at Scale with Antora and Asciidoc
-version: '1.0'
+version: ~
 nav:
   - modules/ROOT/nav.adoc
-
-
+asciidoc:
+  attributes:
+    page-role: book

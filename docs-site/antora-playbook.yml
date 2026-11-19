@@ -12,7 +12,7 @@ antora:
 
 asciidoc:
   attributes:
-    pagination: true
+    page-pagination: true
     tex-name: '*T~E~X*'
 
 content:
@@ -20,6 +20,9 @@ content:
   - url: ..
     branches: HEAD
     start_path: antora-book/
+
+output:
+  clean: true
 
 ui: 
   bundle:
