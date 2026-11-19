@@ -14,8 +14,10 @@
     <span class="nav-text">{{{./content}}}</span>
     {{/if}}
     {{/if}}
+{{#if (eq ./url @root.page.url)}} {{> toc}} {{/if}}
 {{> nav-tree navigation=./items level=(increment ../level)}}
   </li>
+
   {{/each}}
 </ul>
 {{/if}}
