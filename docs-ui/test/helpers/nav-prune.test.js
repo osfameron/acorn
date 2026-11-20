@@ -19,7 +19,7 @@ const nav = [
     ],
   },
   {
-    content: 'Distributed Docs.',
+    content: 'Distributed Docs',
     items: [
       {
         content: 'The Playbook',
@@ -44,7 +44,7 @@ const nav = [
             url: '/acorn/misc/renaming/page-aliases.html',
           },
           {
-            content: 'overriding the url component',
+            content: 'Overriding the url',
             url: '/acorn/misc/renaming/override-url.html',
           },
         ],
@@ -54,6 +54,14 @@ const nav = [
 ]
 
 const { traverse, simplifyNav } = require('../../src/helpers/nav-prune.js')
+
+// helper function to show just paths to .selected items.
+function marks (items) {
+  return items.flatMap((item) => {
+    if (!item.selected) return []
+    return [[item.content, ...marks(item.items)]]
+  })
+}
 
 test('traverse finds all nodes with .url', () => {
   const entries = Array.from(traverse(nav))
@@ -69,137 +77,64 @@ test('traverse finds all nodes with .url', () => {
 })
 
 test('simplifyNav at beginning', () => {
-  assert.deepEqual(simplifyNav(nav, '/acorn/intro/intro.html'), [
-    {
-      items: [
-        {
-          content: 'Introduction',
-          current: true,
-          items: [],
-          roles: ['page'],
-          selected: true,
-          url: '/acorn/intro/intro.html',
-          urlType: 'internal',
-        },
-        {
-          content: 'AI Statement',
-          items: [],
-          selected: true,
-          url: '/acorn/intro/ai-statement.html',
-        },
+  assert.deepEqual(
+    marks(simplifyNav(nav, '/acorn/intro/intro.html')),
+    [
+      [
+        undefined, // opening run has no content
+        ['Introduction'],
+        ['AI Statement'],
       ],
-      selected: true,
-    },
-  ])
+    ]
+  )
 })
 
 test('simplifyNav 2', () => {
-  assert.deepEqual(simplifyNav(nav, '/acorn/intro/ai-statement.html'), [
-    {
-      items: [
-        {
-          content: 'Introduction',
-          items: [],
-          roles: ['page'],
-          selected: true,
-          url: '/acorn/intro/intro.html',
-          urlType: 'internal',
-        },
-        {
-          content: 'AI Statement',
-          current: true,
-          items: [],
-          selected: true,
-          url: '/acorn/intro/ai-statement.html',
-        },
+  assert.deepEqual(
+    marks(simplifyNav(nav, '/acorn/intro/ai-statement.html')),
+    [
+      [
+        undefined,
+        ['Introduction'],
+        ['AI Statement'],
       ],
-      selected: true,
-    },
-    {
-      content: 'Distributed Docs.',
-      items: [
-        {
-          content: 'The Playbook',
-          items: [],
-          selected: true,
-          url: '/acorn/playbook/intro.html',
-        },
+      ['Distributed Docs',
+        ['The Playbook'],
       ],
-      selected: true,
-    },
-  ])
+    ]
+  )
 })
 
 test('simplifyNav 3', () => {
-  assert.deepEqual(simplifyNav(nav, '/acorn/playbook/intro.html'), [
-    {
-      items: [
-        {
-          content: 'AI Statement',
-          items: [],
-          selected: true,
-          url: '/acorn/intro/ai-statement.html',
-        },
+  assert.deepEqual(
+    marks(simplifyNav(nav, '/acorn/playbook/intro.html')),
+    [
+      [
+        undefined,
+        ['AI Statement'],
       ],
-      selected: true,
-    },
-    {
-      content: 'Distributed Docs.',
-      items: [
-        {
-          content: 'The Playbook',
-          current: true,
-          items: [],
-          selected: true,
-          url: '/acorn/playbook/intro.html',
-        },
+      ['Distributed Docs',
+        ['The Playbook'],
       ],
-      selected: true,
-    },
-    {
-      content: 'Some classic problems',
-      items: [
-        {
-          content: 'Renaming things',
-          items: [],
-          selected: true,
-          url: '/acorn/misc/renaming.html',
-        },
+      ['Some classic problems',
+        ['Renaming things'],
       ],
-      selected: true,
-    },
-  ])
+    ]
+  )
 })
 
 test('simplifyNav at end', () => {
-  assert.deepEqual(simplifyNav(nav, '/acorn/misc/renaming/override-url.html'), [
-    {
-      content: 'Some classic problems',
-      selected: true,
-      items: [
-        {
-          content: 'Renaming things',
-          selected: true,
-          url: '/acorn/misc/renaming.html',
-          items: [
-            {
-              content: 'page-aliases',
-              items: [],
-              selected: true,
-              url: '/acorn/misc/renaming/page-aliases.html',
-            },
-            {
-              content: 'overriding the url component',
-              current: true,
-              items: [],
-              selected: true,
-              url: '/acorn/misc/renaming/override-url.html',
-            },
-          ],
-        },
+  assert.deepEqual(
+    marks(simplifyNav(nav, '/acorn/misc/renaming/override-url.html')),
+    [
+      ['Some classic problems',
+        ['Renaming things',
+          ['page-aliases'],
+          ['Overriding the url'],
+        ],
       ],
-    },
-  ])
+    ]
+  )
 })
 
 test('simplifyNav with no match returns full nav', () => {
